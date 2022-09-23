@@ -1,0 +1,110 @@
+ use onlineshoppingportal
+switched to db onlineshoppingportal
+> db
+onlineshoppingportal
+> db.Customer
+onlineshoppingportal.Customer
+> db.Customer.insertMany([{customername:"ramesh", customeremail:"q@gmail.com", customermobno:"9876443733", customerwallet:"xyz", Address:{customercity:"Delhi", customerpincode:"503145", customeraddress:"thisismyaddress"}}])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("632d5d71066be10ad6733a12")
+        ]
+}
+>  db.Customer.insertMany({customername:"somesh", customeremail:"pq@gmail.com", customermobno:"5876443713", customerwallet:"xyz1", Address:{customercity:"Delhi", customerpincode:"403145", customeraddress:"thisismyaddress1"}})
+uncaught exception: TypeError: documents.map is not a function :
+DBCollection.prototype.insertMany@src/mongo/shell/crud_api.js:307:17
+@(shell):1:1
+> db.Customer.insertOne({customername:"somesh", customeremail:"pq@gmail.com", customermobno:"5876443713", customerwallet:"xyz1", Address:{customercity:"Delhi", customerpincode:"403145", customeraddress:"thisismyaddress1"}})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("632d5dd6066be10ad6733a13")
+}
+> db.Customer.insertOne({customername:"naresh", customeremail:"apq@gmail.com", customermobno:"4876443723", customerwallet:"xyz23", Address:{customercity:"Hyd", customerpincode:"303145", customeraddress:"thisismyaddress2"}})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("632d5e04066be10ad6733a14")
+}
+> db.Orders
+onlineshoppingportal.Orders
+> db.Orders.insertOne({orderstatus : "pending", orderamount : "3000"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("632d6010066be10ad6733a15")
+}
+> db.Orders.insertOne({orderstatus : "pending", orderamount : "4000"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("632d601d066be10ad6733a16")
+}
+> db.Orders.insertOne({orderstatus : "delivered", orderamount : "5000"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("632d6028066be10ad6733a17")
+}
+> db.Vendors
+onlineshoppingportal.Vendors
+> db.Vendors.insertOne({vendorname:"joe", vendoremail:"joe@gmail.com", vendormobno:"456789320", vendorwallet: "56789"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("632d60da066be10ad6733a18")
+}
+> db.Vendors.insertOne({vendorname:"danny", vendoremail:"danny@gmail.com", vendormobno:"656789320", vendorwallet: "44789"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("632d60fb066be10ad6733a19")
+}
+> db.Products
+onlineshoppingportal.Products
+> db.Products.insertOne({productname:"noise1", productcategory:"watch", productprice:"3459"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("632d616a066be10ad6733a1a")
+}
+> db.Products.insertOne({productname:"realme1", productcategory:"earphones", productprice:"2459"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("632d618d066be10ad6733a1b")
+}
+> db.Customers.find({"Address.city":"Delhi"})
+> db.Customers.find({"Address.customercity":"Delhi"})
+> db.Customer.find({"Address.customercity":"Delhi"})
+{ "_id" : ObjectId("632d5d71066be10ad6733a12"), "customername" : "ramesh", "customeremail" : "q@gmail.com", "customermobno" : "9876443733", "customerwallet" : "xyz", "Address" : { "customercity" : "Delhi", "customerpincode" : "503145", "customeraddress" : "thisismyaddress" } }
+{ "_id" : ObjectId("632d5dd6066be10ad6733a13"), "customername" : "somesh", "customeremail" : "pq@gmail.com", "customermobno" : "5876443713", "customerwallet" : "xyz1", "Address" : { "customercity" : "Delhi", "customerpincode" : "403145", "customeraddress" : "thisismyaddress1" } }
+> db.Products.find({},{productname:1,productprice:1})
+{ "_id" : ObjectId("632d616a066be10ad6733a1a"), "productname" : "noise1", "productprice" : "3459" }
+{ "_id" : ObjectId("632d618d066be10ad6733a1b"), "productname" : "realme1", "productprice" : "2459" }
+> db.Products.find({},{productname:1,productprice:1,_id:0})
+{ "productname" : "noise1", "productprice" : "3459" }
+{ "productname" : "realme1", "productprice" : "2459" }
+> db.Orders.find({orderstatus:"pending"})
+{ "_id" : ObjectId("632d6010066be10ad6733a15"), "orderstatus" : "pending", "orderamount" : "3000" }
+{ "_id" : ObjectId("632d601d066be10ad6733a16"), "orderstatus" : "pending", "orderamount" : "4000" }
+> db.Customer.insertOne({customername:"somesh", customeremail:"pq@gmail.com", customermobno:"5876443713", customerwallet:"xyz1", Address:{customercity:"Delhi", customerpincode:"600012", customeraddress:"thisismyaddress1"}})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("632d635b066be10ad6733a1c")
+}
+> db.Customer.find({"Address.customerpincode":"600012"},{Address:1,customername:0,customeremail:0,customermobno:0,customerwallet:0,_id:0})
+Error: error: {
+        "ok" : 0,
+        "errmsg" : "Cannot do exclusion on field customername in inclusion projection",
+        "code" : 31254,
+        "codeName" : "Location31254"
+}
+> db.Customer.find({"Address.customerpincode":"600012"},{Address:1,customeremail:0,customermobno:0,customerwallet:0,_id:0})
+Error: error: {
+        "ok" : 0,
+        "errmsg" : "Cannot do exclusion on field customeremail in inclusion projection",
+        "code" : 31254,
+        "codeName" : "Location31254"
+}
+> db.Customer.find({"Address.customerpincode":"600012"},{"Address":1,customeremail:0,customermobno:0,customerwallet:0,_id:0})
+Error: error: {
+        "ok" : 0,
+        "errmsg" : "Cannot do exclusion on field customeremail in inclusion projection",
+        "code" : 31254,
+        "codeName" : "Location31254"
+}
+> db.Customer.find({"Address.customerpincode":"600012"},{"Address.customeraddress":1})
+{ "_id" : ObjectId("632d635b066be10ad6733a1c"), "Address" : { "customeraddress" : "thisismyaddress1" } }
